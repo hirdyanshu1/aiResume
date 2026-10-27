@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{name}} - Resume</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e293b;
+      --secondary: #475569;
+      --text: #0f172a;
+      --light-bg: #f8fafc;
+      --accent: #3b82f6;
+      --border: #e2e8f0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      line-height: 1.5;
+      background-color: #f1f5f9;
+      padding: 40px 20px;
+    }
+    
+    .resume-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 40px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      border-radius: 8px;
+    }
+    
+    header {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 25px;
+    }
+    
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    
+    .header-info h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+    
+    .header-info h2 {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    
+    .contact-info {
+      text-align: right;
+      font-size: 13px;
+      color: var(--secondary);
+    }
+    
+    .contact-info p {
+      margin-bottom: 4px;
+    }
+    
+    .contact-info a {
+      color: var(--secondary);
+      text-decoration: none;
+    }
+    
+    .contact-info a:hover {
+      color: var(--accent);
+    }
+    
+    section {
+      margin-bottom: 25px;
+    }
+    
+    section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+    }
+    
+    .summary-text {
+      font-size: 14px;
+      color: var(--secondary);
+      text-align: justify;
+    }
+    
+    .timeline-item {
+      margin-bottom: 16px;
+    }
+    
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    
+    .timeline-subtitle {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--accent);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    
+    .timeline-content {
+      font-size: 13.5px;
+      color: var(--secondary);
+      padding-left: 15px;
+    }
+    
+    .timeline-content li {
+      margin-bottom: 4px;
+    }
+    
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    
+    .skill-tag {
+      background: var(--light-bg);
+      color: var(--primary);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    /* Print Styles */
+    @media print {
+      body {
+        background-color: #ffffff;
+        padding: 0;
+      }
+      
+      .resume-container {
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+        border-radius: 0;
+      }
+      
+      .no-print {
+        display: none;
+      }
+      
+      @page {
+        size: A4;
+        margin: 1.8cm 1.5cm;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="resume-container">
+    <header>
+      <div class="header-top">
+        <div class="header-info">
+          <h1>{{name}}</h1>
+          <h2>{{title}}</h2>
+        </div>
+        <div class="contact-info">
+          <p>{{email}} | {{phone}}</p>
+          <p>{{location}}</p>
+          <p>
+            {{#website}}<a href="{{website}}" target="_blank">Website</a>{{/website}}
+            {{#github}} | <a href="{{github}}" target="_blank">GitHub</a>{{/github}}
+            {{#linkedin}} | <a href="{{linkedin}}" target="_blank">LinkedIn</a>{{/linkedin}}
+          </p>
+        </div>
+      </div>
+    </header>
+    
+    {{#summary}}
+    <section>
+      <h3>Professional Summary</h3>
+      <p class="summary-text">{{summary}}</p>
+    </section>
+    {{/summary}}
+    
+    {{#experience_section}}
+    <section>
+      <h3>Professional Experience</h3>
+      {{#experiences}}
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <span>{{role}}</span>
+          <span>{{start_date}} - {{end_date}}</span>
+        </div>
+        <div class="timeline-subtitle">
+          <span>{{company}}</span>
+          <span>{{location}}</span>
+        </div>
+        <ul class="timeline-content">
+          {{#bullets}}
+          <li>{{.}}</li>
+          {{/bullets}}
+        </ul>
+      </div>
+      {{/experiences}}
+    </section>
+    {{/experience_section}}
+    
+    {{#project_section}}
+    <section>
+      <h3>Projects</h3>
+      {{#projects}}
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <span>{{name}}</span>
+          <span>{{date}}</span>
+        </div>
+        <div class="timeline-subtitle">
+          <span>{{technologies}}</span>
+          {{#link}}<span><a href="{{link}}" target="_blank">Link</a></span>{{/link}}
+        </div>
+        <ul class="timeline-content">
+          {{#bullets}}
+          <li>{{.}}</li>
+          {{/bullets}}
+        </ul>
+      </div>
+      {{/projects}}
+    </section>
+    {{/project_section}}
+    
+    {{#education_section}}
+    <section>
+      <h3>Education</h3>
+      {{#education}}
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <span>{{degree}}</span>
+          <span>{{start_date}} - {{end_date}}</span>
+        </div>
+        <div class="timeline-subtitle">
+          <span>{{institution}}</span>
+          <span>{{gpa}}</span>
+        </div>
+      </div>
+      {{/education}}
+    </section>
+    {{/education_section}}
+    
+    {{#skills_section}}
+    <section>
+      <h3>Skills</h3>
+      <div class="skills-container">
+        {{#skills}}
+        <span class="skill-tag">{{.}}</span>
+        {{/skills}}
+      </div>
+    </section>
+    {{/skills_section}}
+  </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+{
+    "personal": {
+        "name": "Alex Mercer",
+        "title": "Software Engineer",
+        "email": "alex.mercer@email.com",
+        "phone": "+1 (555) 019-2834",
+        "location": "San Francisco, CA",
+        "website": "https://alexmercer.dev",
+        "github": "https://github.com/alexmercer",
+        "linkedin": "https://linkedin.com/in/alexmercer"
+    },
+    "summary": "Innovative and results-driven Software Engineer with 3+ years of experience building scalable web applications and AI-driven solutions. Proven expertise in Python, JavaScript, and cloud architectures. Passionate about solving complex problems and optimizing system performance.",
+    "experiences": [
+        {
+            "company": "Tech Solutions Inc.",
+            "role": "Software Engineer",
+            "location": "San Francisco, CA",
+            "start_date": "Jun 2024",
+            "end_date": "Present",
+            "bullets": [
+                "Led the development of a microservices backend in FastAPI, increasing API response times by 35% through Redis caching.",
+                "Collaborated with cross-functional teams of 5 to integrate OpenAI API for automated content moderation, reducing manual workload by 50%.",
+                "Deployed and maintained CI/CD pipelines using GitHub Actions, reducing deployment errors by 25%."
+            ]
+        },
+        {
+            "company": "Innovate Systems",
+            "role": "Junior Developer",
+            "location": "San Jose, CA",
+            "start_date": "Jan 2023",
+            "end_date": "May 2024",
+            "bullets": [
+                "Developed responsive frontend features in React and Tailwind CSS, increasing user engagement by 15%.",
+                "Optimized SQL queries in PostgreSQL database, reducing report generation times from 10 seconds to under 2 seconds.",
+                "Participated in agile ceremonies and code reviews to ensure high-quality software standards."
+            ]
+        }
+    ],
+    "projects": [
+        {
+            "name": "AI Task Manager",
+            "date": "Oct 2024",
+            "technologies": "Python, React, Ollama",
+            "link": "https://github.com/alexmercer/ai-task-manager",
+            "bullets": [
+                "Built a desktop productivity app that uses local LLMs to prioritize, summarize, and categorize user tasks.",
+                "Implemented drag-and-drop kanban board in React with offline capability using IndexedDB."
+            ]
+        }
+    ],
+    "education": [
+        {
+            "institution": "State University",
+            "degree": "B.S. in Computer Science",
+            "start_date": "Sep 2019",
+            "end_date": "Dec 2022",
+            "gpa": "3.8/4.0"
+        }
+    ],
+    "skills": [
+        "Python",
+        "FastAPI",
+        "React",
+        "JavaScript",
+        "TypeScript",
+        "Tailwind CSS",
+        "PostgreSQL",
+        "Docker",
+        "Git",
+        "GitHub Actions"
+    ]
+}
