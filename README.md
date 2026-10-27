@@ -2,11 +2,11 @@
 
 **Build. Optimize. Analyze. Get Hired.**
 
-AI Resume Studio is a premium desktop application built in Python using **CustomTkinter**. It serves as an all-in-one suite for candidates to build high-quality resumes, analyze them against target job descriptions using ATS keyword matches, write optimized bullet points and summaries using AI, fetch project details directly from GitHub, practice mock interviews, and generate stunning responsive portfolio websites with a single click.
+AI Resume Studio is available as both a Python desktop application and a browser-based web app. Use the web app to build resumes, check ATS keyword matches, get AI writing help, import public GitHub projects, and generate a responsive portfolio page.
 
 ---
 
-## Key Features
+## Desktop App Features
 
 - 📑 **Resume Builder**: A form-based, multi-tab structured editor to manage personal details, professional experience, projects, education, and skills.
 - 🎨 **HTML Resume Templates**: Support for multiple templates (Modern Minimalist, Traditional serif, Creative dual-column layout) featuring professional typography (Inter, Outfit, Georgia).
@@ -21,6 +21,13 @@ AI Resume Studio is a premium desktop application built in Python using **Custom
 - 🐙 **GitHub Project Importer**: Fetches repositories for a username, allowing checkboxes imports. The AI auto-generates polished descriptions for the projects.
 - 🌐 **Responsive Portfolio Website Generator**: Creates a complete responsive personal website folder containing `index.html` and `styles.css` with a built-in dark/light mode toggle.
 - ⚙️ **Offline Fallback Simulation**: No API keys? No problem! The application features a robust offline heuristic model that simulates AI responses, making it fully testable out-of-the-box.
+
+## Browser App Features
+
+- Resume editing, local browser storage, multiple versions, and JSON import/export.
+- Local resume-strength and job-description keyword checks.
+- AI writing requests through a Vercel function using a key entered for that session.
+- Public GitHub repository import, print-ready resume previews, and downloadable portfolio pages.
 
 ---
 
@@ -39,9 +46,14 @@ AI Resume Studio is a premium desktop application built in Python using **Custom
 ```text
 AI-Resume-Studio/
 │
-├── main.py                   # Entry point script
-├── requirements.txt          # Python dependencies
-├── config.json               # Local configuration file (created automatically)
+├── index.html                # Browser app entry point
+├── app.js                    # Browser app and local resume storage
+├── styles.css                # Responsive web app styles
+├── api/
+│   └── ai.js                 # Vercel serverless AI proxy
+├── main.py                   # Desktop app entry point
+├── requirements.txt          # Desktop Python dependencies
+├── config.json               # Local desktop configuration (ignored by Git)
 │
 ├── core/                     # Business Logic Core
 │   ├── __init__.py
@@ -71,6 +83,20 @@ AI-Resume-Studio/
 ---
 
 ## Setup & Execution
+
+### Deploying the web app to Vercel
+
+The desktop application uses Tkinter and cannot run in a browser. This repository also includes a browser-based version that Vercel can host.
+
+1. Push this repository to GitHub.
+2. In Vercel, choose **Add New → Project** and import the repository.
+3. Keep the project root set to the repository root. No build command or output directory is required; Vercel serves `index.html` and deploys the AI endpoint in `api/ai.js`.
+4. Deploy. The web app stores resume versions in the browser's local storage. Use **Export JSON** to back up or move a resume between devices.
+5. To use the AI assistant, provide an OpenAI or Gemini API key in the assistant screen. The key is used only for that request and is not saved by the app. Your key provider may charge for API usage.
+
+You can also try the browser version locally by running `py -m http.server 8000` from the project folder and opening `http://localhost:8000`. Static features work locally; the AI endpoint is available after deploying to Vercel.
+
+### Running the desktop app
 
 ### Prerequisites
 

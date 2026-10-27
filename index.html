@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10131b">
+    <meta name="description" content="Build, refine, and analyze your resume with AI Resume Studio.">
+    <title>AI Resume Studio</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#dashboard" aria-label="AI Resume Studio home">
+          <span class="brand-mark">R</span>
+          <span><strong>Resume Studio</strong><small>CAREER WORKSPACE</small></span>
+        </a>
+        <nav class="navigation" aria-label="Main navigation">
+          <button class="nav-link active" data-view="dashboard"><span>◫</span> Overview</button>
+          <button class="nav-link" data-view="editor"><span>▤</span> Resume editor</button>
+          <button class="nav-link" data-view="matcher"><span>⌕</span> ATS match</button>
+          <button class="nav-link" data-view="assistant"><span>✦</span> AI assistant</button>
+          <button class="nav-link" data-view="github"><span>⌘</span> GitHub projects</button>
+          <button class="nav-link" data-view="portfolio"><span>↗</span> Portfolio</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="privacy-note"><span class="status-dot"></span><span>Your resumes stay in this browser</span></div>
+          <p>AI requests use the API key you provide for that session. It is not saved.</p>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="section-eyebrow">YOUR CAREER WORKSPACE</p>
+            <h1 id="page-title">Overview</h1>
+          </div>
+          <div class="topbar-actions">
+            <label class="sr-only" for="resume-picker">Active resume</label>
+            <select id="resume-picker" class="select-control"></select>
+            <button class="button button-secondary" id="new-version-button" type="button">New version</button>
+            <button class="button button-secondary" id="save-button" type="button">Save changes</button>
+          </div>
+        </header>
+
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+        <input id="import-file" class="sr-only" type="file" accept="application/json,.json">
+        <dialog id="preview-dialog" class="preview-dialog">
+          <div class="preview-dialog-header"><strong>Preview</strong><button class="button button-secondary" id="preview-close" type="button">Close</button></div>
+          <iframe id="preview-frame" title="Resume or portfolio preview" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>
+        </dialog>
+
+        <section class="view active" id="view-dashboard">
+          <div class="hero-card">
+            <div class="hero-copy">
+              <p class="eyebrow">MAKE YOUR NEXT MOVE</p>
+              <h2>A stronger resume starts here.</h2>
+              <p>Keep your experience organized, tailor your resume to a role, and create a polished portfolio from one workspace.</p>
+              <button class="button button-primary" type="button" data-go="editor">Continue editing <span>→</span></button>
+            </div>
+            <div class="hero-orbit" aria-hidden="true"><div class="orbit-core">CV</div><i></i><b></b></div>
+          </div>
+
+          <div class="stat-grid">
+            <article class="stat-card"><span class="stat-label">RESUME STRENGTH</span><strong id="dash-score">0%</strong><span class="stat-foot" id="dash-score-note">Add your details to get started</span></article>
+            <article class="stat-card"><span class="stat-label">EXPERIENCE</span><strong id="dash-experience">0</strong><span class="stat-foot">work entries</span></article>
+            <article class="stat-card"><span class="stat-label">PROJECTS</span><strong id="dash-projects">0</strong><span class="stat-foot">in your portfolio</span></article>
+            <article class="stat-card"><span class="stat-label">SKILLS</span><strong id="dash-skills">0</strong><span class="stat-foot">skills listed</span></article>
+          </div>
+
+          <div class="section-heading"><div><p class="eyebrow">QUICK ACTIONS</p><h2>What would you like to work on?</h2></div></div>
+          <div class="action-grid">
+            <button class="action-card" data-go="editor"><span class="action-icon violet">▤</span><strong>Build your resume</strong><small>Update your details and work history</small><span class="action-arrow">↗</span></button>
+            <button class="action-card" data-go="matcher"><span class="action-icon blue">⌕</span><strong>Check a job match</strong><small>Compare your resume to a job post</small><span class="action-arrow">↗</span></button>
+            <button class="action-card" data-go="assistant"><span class="action-icon green">✦</span><strong>Improve your writing</strong><small>Get help polishing your content</small><span class="action-arrow">↗</span></button>
+            <button class="action-card" data-go="portfolio"><span class="action-icon orange">↗</span><strong>Make a portfolio</strong><small>Turn your resume into a web page</small><span class="action-arrow">↗</span></button>
+          </div>
+        </section>
+
+        <section class="view" id="view-editor">
+          <div class="section-heading editor-heading">
+            <div><p class="eyebrow">RESUME BUILDER</p><h2>Tell your story clearly.</h2><p class="muted">Changes save in this browser. Export a JSON backup to move your resume to another device.</p></div>
+            <div class="button-row">
+              <button class="button button-secondary" id="import-button" type="button">Import JSON</button>
+              <button class="button button-secondary" id="export-button" type="button">Export JSON</button>
+              <button class="button button-primary" id="preview-button" type="button">Preview &amp; print</button>
+            </div>
+          </div>
+          <form id="resume-form" autocomplete="on">
+            <div class="form-section">
+              <div class="form-section-title"><span class="section-number">01</span><div><h3>Personal details</h3><p>Make it easy for employers to reach you.</p></div></div>
+              <div id="personal-fields" class="form-grid"></div>
+            </div>
+            <div class="form-section">
+              <div class="form-section-title"><span class="section-number">02</span><div><h3>Professional summary</h3><p>Summarize your experience and the value you bring.</p></div></div>
+              <label class="field full-width"><span>Summary</span><textarea name="summary" rows="4" placeholder="A concise introduction to your experience, strengths, and goals"></textarea></label>
+            </div>
+            <div class="form-section">
+              <div class="form-section-title"><span class="section-number">03</span><div><h3>Work experience</h3><p>Focus on the results and impact of your work.</p></div></div>
+              <div id="experience-list" class="entry-list"></div>
+              <button class="button button-add" data-add="experiences" type="button">＋ Add experience</button>
+            </div>
+            <div class="form-section">
+              <div class="form-section-title"><span class="section-number">04</span><div><h3>Projects</h3><p>Showcase relevant work and what you contributed.</p></div></div>
+              <div id="project-list" class="entry-list"></div>
+              <button class="button button-add" data-add="projects" type="button">＋ Add project</button>
+            </div>
+            <div class="form-section">
+              <div class="form-section-title"><span class="section-number">05</span><div><h3>Education</h3><p>Add your degrees, training, and relevant credentials.</p></div></div>
+              <div id="education-list" class="entry-list"></div>
+              <button class="button button-add" data-add="education" type="button">＋ Add education</button>
+            </div>
+            <div class="form-section">
+              <div class="form-section-title"><span class="section-number">06</span><div><h3>Skills</h3><p>Separate each skill with a comma.</p></div></div>
+              <label class="field full-width"><span>Skills</span><textarea name="skills" rows="3" placeholder="Python, Project management, SQL"></textarea></label>
+            </div>
+          </form>
+        </section>
+
+        <section class="view" id="view-matcher">
+          <div class="section-heading"><div><p class="eyebrow">ATS &amp; JOB MATCHER</p><h2>Tailor your resume to the role.</h2><p class="muted">Your resume is analyzed locally in your browser and is not uploaded.</p></div></div>
+          <div class="two-column">
+            <article class="panel">
+              <h3>Resume strength</h3><p class="muted">A checklist-based estimate, not a guarantee of how an employer's ATS will score your resume.</p>
+              <div class="score-wrap"><div class="score-ring" id="score-ring"><strong id="ats-score">0</strong><span>out of 100</span></div><div><strong id="ats-grade">Start with the basics</strong><p id="ats-summary" class="muted">Add contact details, work history, projects, and skills.</p></div></div>
+              <h4>Suggestions</h4><ul class="suggestion-list" id="ats-suggestions"></ul>
+            </article>
+            <article class="panel">
+              <h3>Match a job description</h3><p class="muted">Paste a job post to find overlapping and missing keywords.</p>
+              <label class="field"><span>Job description</span><textarea id="job-description" rows="12" placeholder="Paste the job requirements here..."></textarea></label>
+              <button class="button button-primary" id="match-button" type="button">Analyze job match</button>
+              <div id="match-results" class="match-results" aria-live="polite"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-assistant">
+          <div class="section-heading"><div><p class="eyebrow">AI WRITING ASSISTANT</p><h2>Make every word count.</h2><p class="muted">Use your own API key. It is sent only with your request and is not stored by this site.</p></div></div>
+          <div class="two-column assistant-layout">
+            <article class="panel">
+              <div class="panel-header"><div><h3>Ask your career assistant</h3><p class="muted">Share a prompt, or start with one of the suggestions.</p></div><span class="ai-badge">✦ AI</span></div>
+              <div class="quick-prompts">
+                <button class="chip" data-prompt="Rewrite my professional summary to be concise and specific.">Rewrite my summary</button>
+                <button class="chip" data-prompt="Improve the selected experience bullets. Keep the facts, make the impact clearer, and do not invent metrics.">Improve experience bullets</button>
+                <button class="chip" data-prompt="Suggest interview questions based on my experience and projects.">Practice interview questions</button>
+              </div>
+              <label class="field"><span>Your request</span><textarea id="ai-prompt" rows="6" placeholder="For example: Make my summary more concise and tailored for a product analyst role."></textarea></label>
+              <div class="form-grid ai-settings">
+                <label class="field"><span>Provider</span><select id="ai-provider"><option value="openai">OpenAI</option><option value="gemini">Google Gemini</option></select></label>
+                <label class="field"><span>API key (session only)</span><input id="ai-key" type="password" autocomplete="off" placeholder="Enter your API key"></label>
+              </div>
+              <button class="button button-primary" id="ai-send" type="button">Generate response <span>→</span></button>
+            </article>
+            <article class="panel response-panel"><div class="panel-header"><div><h3>Assistant response</h3><p class="muted">Review suggestions before adding them to your resume.</p></div></div><div id="ai-response" class="ai-response"><span class="response-spark">✦</span><p>Your response will appear here.</p></div></article>
+          </div>
+        </section>
+
+        <section class="view" id="view-github">
+          <div class="section-heading"><div><p class="eyebrow">PROJECT IMPORTER</p><h2>Bring your work into focus.</h2><p class="muted">Look up public GitHub repositories and add selected projects to your resume.</p></div></div>
+          <article class="panel github-panel">
+            <form id="github-form" class="github-search"><label class="field"><span>GitHub username</span><input id="github-username" placeholder="octocat" required></label><button class="button button-primary" type="submit">Find repositories <span>→</span></button></form>
+            <div id="github-results" class="repo-list" aria-live="polite"><div class="empty-state">Search for a GitHub username to see public repositories.</div></div>
+            <div class="button-row"><button class="button button-secondary" id="import-repos" type="button" disabled>Add selected to resume</button></div>
+          </article>
+        </section>
+
+        <section class="view" id="view-portfolio">
+          <div class="section-heading"><div><p class="eyebrow">PORTFOLIO GENERATOR</p><h2>Put your work on the web.</h2><p class="muted">Generate a self-contained portfolio page you can download and host anywhere.</p></div></div>
+          <div class="two-column">
+            <article class="panel">
+              <h3>Choose a style</h3><p class="muted">Your page is generated in your browser. No resume data is uploaded.</p>
+              <label class="field"><span>Portfolio style</span><select id="portfolio-style"><option value="modern">Modern</option><option value="classic">Classic</option><option value="creative">Creative</option></select></label>
+              <div class="portfolio-checklist"><span>✓ Contact details and links</span><span>✓ Experience and projects</span><span>✓ Responsive single-page layout</span></div>
+              <div class="button-row"><button class="button button-secondary" id="portfolio-preview" type="button">Open preview</button><button class="button button-primary" id="portfolio-download" type="button">Download HTML</button></div>
+            </article>
+            <article class="portfolio-preview-card"><div class="preview-window"><div class="preview-bar"><i></i><i></i><i></i><span>portfolio-preview.html</span></div><div class="preview-content"><span class="preview-label">PERSONAL PORTFOLIO</span><strong id="portfolio-name">Your Name</strong><span id="portfolio-title">Your professional title</span><div class="preview-lines"><i></i><i></i><i></i></div><div class="preview-pills"><i></i><i></i><i></i></div></div></div></article>
+          </div>
+        </section>
+
+        <footer class="app-footer"><span>AI Resume Studio</span><span>Private by design · Your resume data stays in your browser</span></footer>
+      </main>
+    </div>
+  </body>
+</html>
